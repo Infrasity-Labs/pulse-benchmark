@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img"
+     aria-label="okto-pulse-benchmarks: SWE-bench Lite, pytest slice, qwen3.8-flash. Staged resolves 10 of 10 tasks, direct resolves 9 of 10. Staged never does worse than direct.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#12161f"/>
+      <stop offset="100%" stop-color="#1a1f2c"/>
+    </linearGradient>
+    <linearGradient id="staged-fill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3ddc97"/>
+      <stop offset="100%" stop-color="#22b8a0"/>
+    </linearGradient>
+    <linearGradient id="direct-fill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5b6478"/>
+      <stop offset="100%" stop-color="#454d5f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="360" fill="url(#bg)"/>
+
+  <!-- Title block -->
+  <text x="56" y="62" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#f2f4f8">okto-pulse-benchmarks</text>
+  <text x="56" y="90" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" fill="#9aa3b8">SWE-bench Lite &#183; pytest-dev/pytest slice (n=10) &#183; agent model qwen3.8-flash</text>
+
+  <!-- Bars -->
+  <!-- track width = 760px, from x=56 to x=816 -->
+  <g font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+
+    <!-- Staged bar -->
+    <text x="56" y="150" font-size="16" font-weight="600" fill="#e7eaf1">Staged (Okto Pulse)</text>
+    <rect x="56" y="164" width="760" height="34" rx="8" fill="#2a3142"/>
+    <rect x="56" y="164" width="760" height="34" rx="8" fill="url(#staged-fill)"/>
+    <text x="826" y="188" font-size="20" font-weight="700" fill="#3ddc97">10 / 10</text>
+
+    <!-- Direct bar -->
+    <text x="56" y="234" font-size="16" font-weight="600" fill="#e7eaf1">Direct (single-shot)</text>
+    <rect x="56" y="248" width="760" height="34" rx="8" fill="#2a3142"/>
+    <rect x="56" y="248" width="684" height="34" rx="8" fill="url(#direct-fill)"/>
+    <text x="826" y="272" font-size="20" font-weight="700" fill="#b7bec6">9 / 10</text>
+  </g>
+
+  <!-- Divider -->
+  <line x1="56" y1="304" x2="1144" y2="304" stroke="#2a3142" stroke-width="1"/>
+
+  <!-- Footnote -->
+  <text x="56" y="332" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#7c869c">Staged never does worse than direct on this pilot &#8212; and resolves the one task (pytest-6116) direct got wrong.</text>
+  <text x="56" y="352" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#5c6580">10-task pilot, one repo &#8212; not a claim about SWE-bench Lite as a whole. See README caveats.</text>
+</svg>

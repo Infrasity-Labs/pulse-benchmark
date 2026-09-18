@@ -1,5 +1,9 @@
 # okto-pulse-benchmarks
 
+<p align="center">
+  <img src="assets/banner.svg" alt="okto-pulse-benchmarks: SWE-bench Lite, pytest slice, qwen3.8-flash. Staged resolves 10 of 10 tasks, direct resolves 9 of 10. Staged never does worse than direct." width="100%">
+</p>
+
 **Does Okto Pulse's staged, plan-then-edit workflow actually produce better
 patches than a single-shot direct edit?** This repo answers that with paired
 runs of [SWE-bench Lite](https://huggingface.co/datasets/SWE-bench/SWE-bench_Lite)
