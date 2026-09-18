@@ -13,8 +13,8 @@ the issue-commit checkout in a Docker container, then runs the instance's
 passing). Resolved or not is decided by test exit codes, not by an LLM.
 
 **Status in this repo:** **10 of 300 instances run**, all from
-`pytest-dev/pytest`. Not a claim about Lite as a whole — see the caveats in
-the top-level `README.md`.
+`pytest-dev/pytest`, agent model `qwen3.8-flash`. Not a claim about Lite as
+a whole — see the caveats in the top-level `README.md`.
 
 ## Arms
 
