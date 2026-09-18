@@ -43,17 +43,82 @@ New here? Three sentences of context.
 - At n=10, a raw count is a lead, not a finding. This repo does not claim
   significance — see Caveats.
 
+### Per-instance breakdown
+
+All 10 instances, with the actual GitHub issue title, patch size, and the
+`FAIL_TO_PASS` test count the harness graded each patch against. `F2P` is
+tests-passing / tests-total for that instance's `FAIL_TO_PASS` set; every
+instance in both arms kept 100% of `PASS_TO_PASS` (no regressions anywhere,
+in either arm).
+
+| Instance | Issue | Direct | Staged | F2P (direct) | F2P (staged) | Patch size (direct → staged) |
+|---|---|:--:|:--:|:--:|:--:|:--|
+| pytest-5221 | Display fixture scope with `pytest --fixtures` | ✅ | ✅ | 2/2 | 2/2 | 1 file / 28 lines → 1 file / 28 lines |
+| pytest-5227 | Improve default logging format | ✅ | ✅ | 3/3 | 3/3 | 2 files / 25 lines → 2 files / 25 lines |
+| pytest-5413 | `str()` on the `pytest.raises` context variable doesn't match a normal `except` | ✅ | ✅ | 1/1 | 1/1 | 1 file / 18 lines → 1 file / 18 lines |
+| pytest-5495 | Confusing assertion-rewrite message for byte strings | ✅ | ✅ | 2/2 | 2/2 | 2 files / 68 lines → 2 files / 68 lines |
+| pytest-5692 | Hostname and timestamp in generated JUnit XML | ✅ | ✅ | 2/2 | 2/2 | 2 files / 32 lines → 2 files / 32 lines |
+| **pytest-6116** | `--collect-only` needs a one-char shortcut | ❌ | ✅ | **0/2** | **2/2** | 1 file / 18 lines → **2 files / 19 lines** |
+| pytest-7220 | Wrong path to test file when a fixture changes directory | ✅ | ✅ | 1/1 | 1/1 | 2 files / 37 lines → 2 files / 37 lines |
+| pytest-7373 | Incorrect caching of skipif/xfail string condition evaluation | ✅ | ✅ | 1/1 | 1/1 | 2 files / 65 lines → 2 files / 64 lines |
+| pytest-7432 | `--runxfail` breaks skip-location reporting | ✅ | ✅ | 1/1 | 1/1 | 2 files / 21 lines → 2 files / 21 lines |
+| pytest-8365 | `tmpdir` creation fails for usernames with illegal directory characters | ✅ | ✅ | 1/1 | 1/1 | 2 files / 25 lines → 2 files / 25 lines |
+
+On the 9 instances both arms resolved, direct and staged landed on
+**near-identical patches** — same file count, same or almost-same line
+count. Staging isn't rewriting working solutions into different working
+solutions here; it's only changing the outcome on the one instance where
+direct's approach was actually wrong.
+
 <details>
-<summary><b>Per-instance breakdown</b></summary>
+<summary><b>Worked example: why staging fixed pytest-6116</b></summary>
 
-**Direct** — 9 resolved, 1 unresolved:
+The issue asks for `--co` as a shortcut for `--collect-only`. Both models
+found the right file; they diverged on *how* to wire the shortcut in.
 
-| Instance | Resolved? |
-|---|:--:|
-| all except pytest-dev__pytest-6116 | ✅ |
-| pytest-dev__pytest-6116 | ❌ (ambiguous_failure: missing_module) |
+**Direct's patch** — rewrites `-co` to `--collect-only` in the raw arg list
+before pytest's argparse-based option parser ever sees it:
 
-**Staged** — 10/10, no unresolved, no ambiguous failures, no empty patches.
+```diff
+--- a/src/_pytest/config/__init__.py
++++ b/src/_pytest/config/__init__.py
+@@ -211,6 +211,13 @@ def _prepareconfig(args=None, plugins=None):
++    # Expand the ``-co`` shortcut for ``--collect-only`` up-front...
++    args = ["--collect-only" if arg == "-co" else arg for arg in args]
+     config = get_config(args, plugins)
+```
+
+This makes `pytest -co` work, but `--co` never becomes a real registered
+option — it doesn't show up in `--help`, isn't recognized as `--co` by
+anything that inspects the parser, and the issue actually asked for `--co`
+(long form), not `-co`. Both `FAIL_TO_PASS` tests failed.
+
+**Staged's patch** — registers `--co` as a real alias on the existing
+`addoption` call, the same place `--collectonly`/`--collect-only` are
+already registered:
+
+```diff
+--- a/src/_pytest/main.py
++++ b/src/_pytest/main.py
+@@ -109,6 +109,7 @@ def pytest_addoption(parser):
+     group.addoption(
+         "--collectonly",
+         "--collect-only",
++        "--co",
+         action="store_true",
+```
+
+...plus a changelog entry (`changelog/6116.improvement.rst`), which is the
+project's actual contribution convention. Both `FAIL_TO_PASS` tests passed.
+
+The gap here isn't model capability — it's that staging's plan-then-edit
+lifecycle (spec derivation, FR/TR/AC fill-in, review before implementation)
+pointed the model at "add a real option" rather than "patch the arg list,"
+which is the difference between a workaround and the actual fix the
+maintainers took.
+
+Full diffs: `results/examples/pytest-6116-direct.diff`,
+`results/examples/pytest-6116-staged.diff`.
 
 </details>
 
@@ -157,7 +222,8 @@ anything beyond "worth a bigger run":
 
 ```
 results/    per-run harness summaries (*.json), raw predictions (*.jsonl),
-            and the gold-patch sanity check
+            the gold-patch sanity check, and examples/ (worked-example
+            direct-vs-staged diffs cited in the README/reports)
 runners/    Okto Pulse staged-lifecycle driver (staged_driver.py), the REST
             helper it runs over (pulse_rest.py), and the diff-emission step
             shared by both arms (apply_staged.py)

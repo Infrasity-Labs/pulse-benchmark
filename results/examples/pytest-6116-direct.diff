@@ -1,0 +1,18 @@
+diff --git a/src/_pytest/config/__init__.py b/src/_pytest/config/__init__.py
+index 8e11b56..1c063b4 100644
+--- a/src/_pytest/config/__init__.py
++++ b/src/_pytest/config/__init__.py
+@@ -211,6 +211,13 @@ def _prepareconfig(args=None, plugins=None):
+         msg = "`args` parameter expected to be a list or tuple of strings, got: {!r} (type: {})"
+         raise TypeError(msg.format(args, type(args)))
+ 
++    # Expand the ``-co`` shortcut for ``--collect-only`` up-front.  It cannot
++    # be registered as a regular option because only single-character short
++    # options are allowed, and the raw args are already consumed below by
++    # get_config (ini detection, ``-c`` handling), so translate them here
++    # before anything else sees them.
++    args = ["--collect-only" if arg == "-co" else arg for arg in args]
++
+     config = get_config(args, plugins)
+     pluginmanager = config.pluginmanager
+     try:
