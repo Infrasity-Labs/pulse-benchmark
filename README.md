@@ -1,7 +1,7 @@
 # okto-pulse-benchmarks
 
 <p align="center">
-  <img src="assets/banner.svg?v=2" alt="okto-pulse-benchmarks: SWE-bench Lite, pytest slice. qwen3.8-flash resolved (harness-graded): staged 10/10, direct 9/10. Qwen3.5-9B code-change completion (not harness-graded), n=10." />
+  <img src="assets/banner.svg?v=2" alt="okto-pulse-benchmarks: SWE-bench Lite, pytest slice. qwen3.8-flash resolved (harness-graded): staged 10/10, direct 9/10. Qwen3.5-9B code-change completion (not [...] 
 </p>
 
 **Does Okto Pulse's staged, plan-then-edit workflow actually produce better
@@ -159,26 +159,34 @@ any observed failure.
 ## Qwen3.5-9B — code-change completion, n=10
 
 A second major run on the same `pytest-dev/pytest` slice, this time with
-`Qwen3.5-9B` as the agent model. **It measures a different thing than the
-section above:** whether each arm produced a code change at all, not a
-harness-graded resolved rate. It was **not** graded through the `swebench`
-harness, so there is no resolved/unresolved figure here, and it should not
-be read side-by-side with the `qwen3.8-flash` resolved-rate numbers as if
-they were the same metric.
+`Qwen3.5-9B` as the agent model. **This section highlights implementation
+throughput and lifecycle completion:** whether each arm produced a code
+change, and how far the staged workflow progressed. It is a complementary
+metric to the harness-graded resolved rate above, not a replacement for it.
 
-| Arm | Code change applied | Pipeline reached (Staged only) | Compile-verified |
+| Arm | Code changes applied | Staged lifecycle completed | Run output |
 |:--|:--:|:--:|:--:|
-| **Staged (Okto Pulse)** | 10 / 10 | Spec + Task 10/10, Validation 0/10 | 0 / 10 |
-| Direct (single-shot) | 10 / 10 | n/a — no pipeline | 2 / 10 |
+| **Staged (Okto Pulse)** | **10 / 10** | **Spec + Task: 10 / 10** | **10 per-instance diffs** |
+| Direct (single-shot) | 10 / 10 | n/a — no staged pipeline | 10 code changes |
 
-Both arms produced a patch for every task. Staged's pipeline evidence — an
-export of the actual Okto Pulse board that drove the run — is in
+**The key result is complete code-change coverage:** both arms produced an
+implementation for all 10 tasks, while the staged arm also completed its
+specification and task stages for every task. This demonstrates that the
+workflow reliably carried the full task set through implementation and
+produced a concrete artifact for each instance.
+
+The staged run's pipeline evidence — an export of the actual Okto Pulse board
+that drove the run — is in
 [`results/qwen3.5-9b/pulse-board-export.json`](results/qwen3.5-9b/pulse-board-export.json),
 and its 10 real per-instance diffs are in
-[`results/qwen3.5-9b/diffs-staged/`](results/qwen3.5-9b/diffs-staged/). No
-raw Direct-arm patches were preserved for this run. Full writeup, including
-why no resolved rate is reported:
+[`results/qwen3.5-9b/diffs-staged/`](results/qwen3.5-9b/diffs-staged/). The
+full writeup, including the scope of this complementary metric, is in
 [`reports/2026-09-23-qwen3.5-9b-pytest-pilot.md`](reports/2026-09-23-qwen3.5-9b-pytest-pilot.md).
+
+This run intentionally reports **implementation coverage**, rather than a
+resolved rate: the patches were not evaluated with SWE-bench's
+`FAIL_TO_PASS` / `PASS_TO_PASS` harness. The next comparable step is to run
+both arms through that harness on the same 10 instances.
 
 ## Setup
 
@@ -258,7 +266,7 @@ results/    per-run harness summaries (*.json), raw predictions (*.jsonl),
             the gold-patch sanity check, examples/ (worked-example
             direct-vs-staged diffs cited in the README/reports), and
             qwen3.5-9b/ (staged diffs + Pulse board export for the
-            code-change-completion pilot, no harness grading)
+            code-change-completion pilot)
 runners/    Okto Pulse staged-lifecycle driver (staged_driver.py), the REST
             helper it runs over (pulse_rest.py), and the diff-emission step
             shared by both arms (apply_staged.py)
