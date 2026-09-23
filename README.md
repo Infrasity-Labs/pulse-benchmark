@@ -17,12 +17,12 @@ that number — this is a pilot on 10 tasks from **one** of Lite's twelve
 repos, not the full 300-task set, and at this sample size the result does
 not clear statistical significance.
 
-A second pilot swaps in `Qwen3.5-9B` as the agent model, but measures a
-shallower thing — code-change completion, not harness-graded resolved
-rate — so it's reported separately, not blended into the number above. See
-[Other runs](#other-runs) below.
+A second major run swaps in `Qwen3.5-9B` as the agent model. It measures a
+different thing — code-change completion, not harness-graded resolved rate —
+so its numbers are reported in their own section below, not blended into the
+`qwen3.8-flash` figure above. See [Qwen3.5-9B](#qwen35-9b--code-change-completion-n10).
 
-## Results
+## qwen3.8-flash — resolved rate (harness-graded)
 
 ### The one number
 
@@ -156,16 +156,15 @@ any observed failure.
 `qwen-staged/task-4-rerun` in the raw run tree) before it resolved — the
 10/10 is real per the harness, but wasn't first-attempt-clean throughout.
 
-### Other runs
+## Qwen3.5-9B — code-change completion, n=10
 
-#### Qwen3.5-9B — code-change completion, n=10
-
-A second pilot on the same `pytest-dev/pytest` slice, this time with
-`Qwen3.5-9B` as the agent model. **This run measures a different, shallower
-thing than the number above:** whether each arm produced a code change at
-all. It was **not** graded through the `swebench` harness, so there is no
-resolved/unresolved figure, and it should not be read side-by-side with the
-`qwen3.8-flash` resolved-rate numbers as if they were the same metric.
+A second major run on the same `pytest-dev/pytest` slice, this time with
+`Qwen3.5-9B` as the agent model. **It measures a different thing than the
+section above:** whether each arm produced a code change at all, not a
+harness-graded resolved rate. It was **not** graded through the `swebench`
+harness, so there is no resolved/unresolved figure here, and it should not
+be read side-by-side with the `qwen3.8-flash` resolved-rate numbers as if
+they were the same metric.
 
 | Arm | Code change applied | Pipeline reached (Staged only) | Compile-verified |
 |:--|:--:|:--:|:--:|
