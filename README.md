@@ -151,6 +151,19 @@ any observed failure.
 `qwen-staged/task-4-rerun` in the raw run tree) before it resolved — the
 10/10 is real per the harness, but wasn't first-attempt-clean throughout.
 
+### Other runs
+
+**Qwen3.5-9B — code-change completion, n=10.** A second pilot on the same
+`pytest-dev/pytest` slice, this time with `Qwen3.5-9B` as the agent model.
+This run only measures whether each arm produced a code change at all — it
+was **not** graded through the `swebench` harness, so there is no
+resolved/unresolved figure and it is not comparable to the `qwen3.8-flash`
+numbers above. Both Direct and Staged produced a patch for all 10/10 tasks;
+Staged reached every pipeline stage up to Validation (0/10) on all 10 tasks;
+only 2 of 10 Direct patches were compile-verified, and none of Staged's were.
+Full writeup, including why no resolved rate is reported:
+[`reports/2026-09-23-qwen3.5-9b-pytest-pilot.md`](reports/2026-09-23-qwen3.5-9b-pytest-pilot.md).
+
 ## Setup
 
 ```bash
@@ -226,8 +239,10 @@ anything beyond "worth a bigger run":
 
 ```
 results/    per-run harness summaries (*.json), raw predictions (*.jsonl),
-            the gold-patch sanity check, and examples/ (worked-example
-            direct-vs-staged diffs cited in the README/reports)
+            the gold-patch sanity check, examples/ (worked-example
+            direct-vs-staged diffs cited in the README/reports), and
+            qwen3.5-9b/ (staged diffs + Pulse board export for the
+            code-change-completion pilot, no harness grading)
 runners/    Okto Pulse staged-lifecycle driver (staged_driver.py), the REST
             helper it runs over (pulse_rest.py), and the diff-emission step
             shared by both arms (apply_staged.py)
