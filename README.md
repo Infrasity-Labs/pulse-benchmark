@@ -1,7 +1,7 @@
 # okto-pulse-benchmarks
 
 <p align="center">
-  <img src="assets/banner.svg?v=2" alt="okto-pulse-benchmarks: SWE-bench Lite, pytest slice. qwen3.8-flash resolved (harness-graded): staged 10/10, direct 9/10. Qwen3.5-9B code-change completion (not harness-graded): staged 10/10, direct 10/10." width="100%">
+  <img src="assets/banner.svg?v=2" alt="okto-pulse-benchmarks: SWE-bench Lite, pytest slice. qwen3.8-flash resolved (harness-graded): staged 10/10, direct 9/10. Qwen3.5-9B code-change completion (not harness-graded), n=10." />
 </p>
 
 **Does Okto Pulse's staged, plan-then-edit workflow actually produce better
