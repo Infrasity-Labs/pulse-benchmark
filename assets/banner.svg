@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img"
-     aria-label="okto-pulse-benchmarks: SWE-bench Lite, pytest slice, qwen3.8-flash. Staged resolves 10 of 10 tasks, direct resolves 9 of 10. Staged never does worse than direct.">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img"
+     aria-label="okto-pulse-benchmarks. Panel one: SWE-bench Lite pytest slice, qwen3.8-flash, resolved via the swebench harness. Staged resolves 10 of 10 tasks, direct resolves 9 of 10. Panel two: same slice, Qwen3.5-9B, code-change completion only, not harness-graded. Staged and direct both apply a code change on 10 of 10 tasks.">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#12161f"/>
@@ -13,35 +13,62 @@
       <stop offset="0%" stop-color="#5b6478"/>
       <stop offset="100%" stop-color="#454d5f"/>
     </linearGradient>
+    <linearGradient id="neutral-fill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6d8bd6"/>
+      <stop offset="100%" stop-color="#4f6cb0"/>
+    </linearGradient>
   </defs>
 
-  <rect width="1200" height="360" fill="url(#bg)"/>
+  <rect width="1200" height="560" fill="url(#bg)"/>
 
   <!-- Title block -->
-  <text x="56" y="62" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#f2f4f8">okto-pulse-benchmarks</text>
-  <text x="56" y="90" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" fill="#9aa3b8">SWE-bench Lite &#183; pytest-dev/pytest slice (n=10) &#183; agent model qwen3.8-flash</text>
+  <text x="56" y="56" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#f2f4f8">okto-pulse-benchmarks</text>
+  <text x="56" y="82" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#9aa3b8">SWE-bench Lite &#183; pytest-dev/pytest slice (n=10) &#183; two agent models, two different metrics</text>
 
-  <!-- Bars -->
-  <!-- track width = 760px, from x=56 to x=816 -->
+  <!-- Divider under masthead -->
+  <line x1="56" y1="104" x2="1144" y2="104" stroke="#2a3142" stroke-width="1"/>
+
+  <!-- ===================== Panel 1: qwen3.8-flash, resolved rate ===================== -->
+  <text x="56" y="140" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#f2f4f8">qwen3.8-flash &#8212; resolved (swebench harness, FAIL_TO_PASS/PASS_TO_PASS)</text>
+
   <g font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
-
     <!-- Staged bar -->
-    <text x="56" y="150" font-size="16" font-weight="600" fill="#e7eaf1">Staged (Okto Pulse)</text>
-    <rect x="56" y="164" width="760" height="34" rx="8" fill="#2a3142"/>
-    <rect x="56" y="164" width="760" height="34" rx="8" fill="url(#staged-fill)"/>
-    <text x="826" y="188" font-size="20" font-weight="700" fill="#3ddc97">10 / 10</text>
+    <text x="56" y="176" font-size="15" font-weight="600" fill="#e7eaf1">Staged (Okto Pulse)</text>
+    <rect x="56" y="188" width="760" height="30" rx="7" fill="#2a3142"/>
+    <rect x="56" y="188" width="760" height="30" rx="7" fill="url(#staged-fill)"/>
+    <text x="826" y="210" font-size="18" font-weight="700" fill="#3ddc97">10 / 10</text>
 
     <!-- Direct bar -->
-    <text x="56" y="234" font-size="16" font-weight="600" fill="#e7eaf1">Direct (single-shot)</text>
-    <rect x="56" y="248" width="760" height="34" rx="8" fill="#2a3142"/>
-    <rect x="56" y="248" width="684" height="34" rx="8" fill="url(#direct-fill)"/>
-    <text x="826" y="272" font-size="20" font-weight="700" fill="#b7bec6">9 / 10</text>
+    <text x="56" y="240" font-size="15" font-weight="600" fill="#e7eaf1">Direct (single-shot)</text>
+    <rect x="56" y="252" width="760" height="30" rx="7" fill="#2a3142"/>
+    <rect x="56" y="252" width="684" height="30" rx="7" fill="url(#direct-fill)"/>
+    <text x="826" y="274" font-size="18" font-weight="700" fill="#b7bec6">9 / 10</text>
   </g>
 
-  <!-- Divider -->
-  <line x1="56" y1="304" x2="1144" y2="304" stroke="#2a3142" stroke-width="1"/>
+  <text x="56" y="304" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#7c869c">Staged never does worse than direct here &#8212; and resolves the one task (pytest-6116) direct got wrong.</text>
+
+  <!-- Divider between panels -->
+  <line x1="56" y1="330" x2="1144" y2="330" stroke="#2a3142" stroke-width="1"/>
+
+  <!-- ===================== Panel 2: Qwen3.5-9B, completion only ===================== -->
+  <text x="56" y="366" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#f2f4f8">Qwen3.5-9B &#8212; code-change completion only (not harness-graded)</text>
+
+  <g font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+    <!-- Staged bar -->
+    <text x="56" y="402" font-size="15" font-weight="600" fill="#e7eaf1">Staged (Okto Pulse)</text>
+    <rect x="56" y="414" width="760" height="30" rx="7" fill="#2a3142"/>
+    <rect x="56" y="414" width="760" height="30" rx="7" fill="url(#neutral-fill)"/>
+    <text x="826" y="436" font-size="18" font-weight="700" fill="#8fa8e0">10 / 10</text>
+
+    <!-- Direct bar -->
+    <text x="56" y="466" font-size="15" font-weight="600" fill="#e7eaf1">Direct (single-shot)</text>
+    <rect x="56" y="478" width="760" height="30" rx="7" fill="#2a3142"/>
+    <rect x="56" y="478" width="760" height="30" rx="7" fill="url(#neutral-fill)"/>
+    <text x="826" y="500" font-size="18" font-weight="700" fill="#8fa8e0">10 / 10</text>
+  </g>
+
+  <text x="56" y="530" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#7c869c">Both arms applied a code change on every task &#8212; this metric does not measure whether the patch was correct.</text>
 
   <!-- Footnote -->
-  <text x="56" y="332" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#7c869c">Staged never does worse than direct on this pilot &#8212; and resolves the one task (pytest-6116) direct got wrong.</text>
-  <text x="56" y="352" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#5c6580">10-task pilot, one repo &#8212; not a claim about SWE-bench Lite as a whole. See README caveats.</text>
+  <text x="56" y="552" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#5c6580">Both panels: 10-task pilot, one repo &#8212; not a claim about SWE-bench Lite as a whole. See README caveats.</text>
 </svg>

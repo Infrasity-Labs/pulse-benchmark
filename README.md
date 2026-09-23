@@ -1,7 +1,7 @@
 # okto-pulse-benchmarks
 
 <p align="center">
-  <img src="assets/banner.svg" alt="okto-pulse-benchmarks: SWE-bench Lite, pytest slice, qwen3.8-flash. Staged resolves 10 of 10 tasks, direct resolves 9 of 10. Staged never does worse than direct." width="100%">
+  <img src="assets/banner.svg" alt="okto-pulse-benchmarks: SWE-bench Lite, pytest slice. qwen3.8-flash resolved (harness-graded): staged 10/10, direct 9/10. Qwen3.5-9B code-change completion (not harness-graded): staged 10/10, direct 10/10." width="100%">
 </p>
 
 **Does Okto Pulse's staged, plan-then-edit workflow actually produce better
@@ -17,7 +17,12 @@ that number — this is a pilot on 10 tasks from **one** of Lite's twelve
 repos, not the full 300-task set, and at this sample size the result does
 not clear statistical significance.
 
-## Results
+A second major run swaps in `Qwen3.5-9B` as the agent model. It measures a
+different thing — code-change completion, not harness-graded resolved rate —
+so its numbers are reported in their own section below, not blended into the
+`qwen3.8-flash` figure above. See [Qwen3.5-9B](#qwen35-9b--code-change-completion-n10).
+
+## qwen3.8-flash — resolved rate (harness-graded)
 
 ### The one number
 
@@ -151,17 +156,28 @@ any observed failure.
 `qwen-staged/task-4-rerun` in the raw run tree) before it resolved — the
 10/10 is real per the harness, but wasn't first-attempt-clean throughout.
 
-### Other runs
+## Qwen3.5-9B — code-change completion, n=10
 
-**Qwen3.5-9B — code-change completion, n=10.** A second pilot on the same
-`pytest-dev/pytest` slice, this time with `Qwen3.5-9B` as the agent model.
-This run only measures whether each arm produced a code change at all — it
-was **not** graded through the `swebench` harness, so there is no
-resolved/unresolved figure and it is not comparable to the `qwen3.8-flash`
-numbers above. Both Direct and Staged produced a patch for all 10/10 tasks;
-Staged reached every pipeline stage up to Validation (0/10) on all 10 tasks;
-only 2 of 10 Direct patches were compile-verified, and none of Staged's were.
-Full writeup, including why no resolved rate is reported:
+A second major run on the same `pytest-dev/pytest` slice, this time with
+`Qwen3.5-9B` as the agent model. **It measures a different thing than the
+section above:** whether each arm produced a code change at all, not a
+harness-graded resolved rate. It was **not** graded through the `swebench`
+harness, so there is no resolved/unresolved figure here, and it should not
+be read side-by-side with the `qwen3.8-flash` resolved-rate numbers as if
+they were the same metric.
+
+| Arm | Code change applied | Pipeline reached (Staged only) | Compile-verified |
+|:--|:--:|:--:|:--:|
+| **Staged (Okto Pulse)** | 10 / 10 | Spec + Task 10/10, Validation 0/10 | 0 / 10 |
+| Direct (single-shot) | 10 / 10 | n/a — no pipeline | 2 / 10 |
+
+Both arms produced a patch for every task. Staged's pipeline evidence — an
+export of the actual Okto Pulse board that drove the run — is in
+[`results/qwen3.5-9b/pulse-board-export.json`](results/qwen3.5-9b/pulse-board-export.json),
+and its 10 real per-instance diffs are in
+[`results/qwen3.5-9b/diffs-staged/`](results/qwen3.5-9b/diffs-staged/). No
+raw Direct-arm patches were preserved for this run. Full writeup, including
+why no resolved rate is reported:
 [`reports/2026-09-23-qwen3.5-9b-pytest-pilot.md`](reports/2026-09-23-qwen3.5-9b-pytest-pilot.md).
 
 ## Setup
