@@ -1,0 +1,286 @@
+{
+  "board": {
+    "id": "2648fa35-5621-4dee-a8be-b0db9ed63657",
+    "name": "SWE-bench Flask Eval",
+    "description": "Staged workflow for pallets/flask SWE-bench tasks (self-hosted eval). Repo: pallets/flask.",
+    "created_at": "2026-09-09T13:31:25",
+    "updated_at": "2026-09-09T13:31:25"
+  },
+  "cards": [
+    {
+      "id": "dbecc17b-1727-43c5-a219-6eb47206f92e",
+      "title": "Task 10: Fix tmpdir with invalid chars in username",
+      "description": "pytest-dev__pytest-8365",
+      "status": "not_started",
+      "spec_id": "645615ca-c6de-4c74-9e35-080f7952aa9d",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-22T12:19:52",
+      "updated_at": "2026-09-22T12:19:52"
+    },
+    {
+      "id": "332d578e-eb5c-48f3-b4c9-1c7fadc1a26e",
+      "title": "Task 9: Fix --runxfail breaking skip location",
+      "description": "pytest-dev__pytest-7432",
+      "status": "not_started",
+      "spec_id": "58ce47dc-c845-4024-9931-6b8b948db1d1",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-22T12:19:34",
+      "updated_at": "2026-09-22T12:19:34"
+    },
+    {
+      "id": "520975e5-eda0-45fa-90a5-bd56f52f6c3d",
+      "title": "Task 8: Fix skipif/xfail caching",
+      "description": "pytest-dev__pytest-7373",
+      "status": "not_started",
+      "spec_id": "d41aa7c6-e9da-4689-b6b5-395dfd5ed9f5",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-22T12:19:28",
+      "updated_at": "2026-09-22T12:19:28"
+    },
+    {
+      "id": "9337001d-e3da-4aeb-9502-dddeba51429e",
+      "title": "Task 7: Fix test path when fixture changes directory",
+      "description": "pytest-dev__pytest-7220",
+      "status": "not_started",
+      "spec_id": "b49b870b-0069-42df-b857-bfc33e8e842b",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-22T12:19:22",
+      "updated_at": "2026-09-22T12:19:22"
+    },
+    {
+      "id": "bcb4d04c-7b78-4767-bf12-c92c0a5adbd6",
+      "title": "Task 6: Add -c shortcut for --collect-only",
+      "description": "pytest-dev__pytest-6116",
+      "status": "not_started",
+      "spec_id": "6ca6f0a3-8cb2-4004-ab8b-e000de33e9db",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-22T12:19:16",
+      "updated_at": "2026-09-22T12:19:16"
+    },
+    {
+      "id": "1a914023-3fb0-486c-b98e-d0e5a7ecfec0",
+      "title": "Task 5: Add hostname/timestamp to JUnit XML",
+      "description": "pytest-dev__pytest-5692",
+      "status": "not_started",
+      "spec_id": "819194b6-6266-4c53-816a-b995545107d8",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-22T12:19:11",
+      "updated_at": "2026-09-22T12:19:11"
+    },
+    {
+      "id": "feb7a026-71a5-4213-82b3-271997e394c4",
+      "title": "Task 4: Fix byte string assertion repr",
+      "description": "pytest-dev__pytest-5495",
+      "status": "not_started",
+      "spec_id": "b88c9fcb-b55f-4ba0-97cd-4df38622a5c9",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-22T12:19:05",
+      "updated_at": "2026-09-22T12:19:05"
+    },
+    {
+      "id": "41af7a5e-f611-4767-bbcb-9ba5c31298a2",
+      "title": "Task 3: Fix pytest.raises str()",
+      "description": "pytest-dev__pytest-5413",
+      "status": "not_started",
+      "spec_id": "f2a56df1-b5c2-40b4-9eea-839e9a0767be",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-22T12:18:59",
+      "updated_at": "2026-09-22T12:18:59"
+    },
+    {
+      "id": "5e4c744c-c37d-4a12-8995-2f86af4f9bd0",
+      "title": "Task 2: Improve default logging format",
+      "description": "pytest-dev__pytest-5227",
+      "status": "not_started",
+      "spec_id": "1004e5e1-7e66-4726-9cbf-55faeba14a95",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-22T12:18:12",
+      "updated_at": "2026-09-22T12:18:12"
+    },
+    {
+      "id": "f6b42c94-a13f-4ed9-8cb6-df4cc3681a00",
+      "title": "Task 1: Display fixture scope with pytest --fixtures",
+      "description": "pytest-dev__pytest-5221",
+      "status": "not_started",
+      "spec_id": "153482f0-5cf8-41aa-81ed-59efcde4a02d",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-22T12:11:36",
+      "updated_at": "2026-09-22T12:11:36"
+    },
+    {
+      "id": "5bdc0c5f-b783-4585-ab9c-31dfd0ef7bfc",
+      "title": "Test: basetemp fallback behavior (pytest-8365)",
+      "description": "Scenarios ts_aa27bc63, ts_9c6b8cc4.",
+      "status": "not_started",
+      "spec_id": "6f169c1e-6676-49cb-b7f0-a48885bc12bb",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T20:22:38",
+      "updated_at": "2026-09-11T20:22:38"
+    },
+    {
+      "id": "529933cc-6748-4c6b-bec7-a15e2291184c",
+      "title": "Task: unknown-user basetemp fallback (pytest-8365)",
+      "description": "Wrap pytest-of-{user} mkdir in try/except OSError with pytest-of-unknown fallback per upstream b7f2d7ca; add changelog/8317.bugfix.rst. No testing/ edits.",
+      "status": "not_started",
+      "spec_id": "6f169c1e-6676-49cb-b7f0-a48885bc12bb",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T20:22:38",
+      "updated_at": "2026-09-11T20:22:38"
+    },
+    {
+      "id": "af386031-baaf-4d42-ba7b-d0746d47b4f5",
+      "title": "Test: skip location with --runxfail (pytest-7432)",
+      "description": "Scenarios ts_71d7e4cc, ts_65fdd5d2.",
+      "status": "not_started",
+      "spec_id": "02b9494a-409f-4c0e-a70d-11c12e2f59ad",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T20:15:41",
+      "updated_at": "2026-09-11T20:15:41"
+    },
+    {
+      "id": "ed5e8880-ccc4-4846-8ea8-bdca8d70fc51",
+      "title": "Task: detach mark-skip location fix (pytest-7432)",
+      "description": "In skipping.py pytest_runtest_makereport change the tail 'elif (' (line 294) to a blank line + standalone 'if (' (upstream c3e2b11a) and add changelog/7392.bugfix.rst. No testing/ edits.",
+      "status": "not_started",
+      "spec_id": "02b9494a-409f-4c0e-a70d-11c12e2f59ad",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T20:15:40",
+      "updated_at": "2026-09-11T20:15:40"
+    },
+    {
+      "id": "9c8867bd-1207-4c7e-ac91-6e407a2df820",
+      "title": "Test: per-item condition evaluation (pytest-7373)",
+      "description": "Scenarios ts_710eb67a, ts_7d4f9307.",
+      "status": "not_started",
+      "spec_id": "6b78ff1d-3f97-49c5-9cbb-720eb645ed8a",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T20:08:30",
+      "updated_at": "2026-09-11T20:08:30"
+    },
+    {
+      "id": "988e895e-d0c8-4c1d-8400-74483ce471a9",
+      "title": "Task: remove skipif/xfail eval cache (pytest-7373)",
+      "description": "Delete cached_eval/evalcache_key, inline compile+eval in _istrue with explanatory comment, prune typing.Any/Config/StoreKey imports, add changelog/7373.bugfix.rst. No testing/ edits.",
+      "status": "not_started",
+      "spec_id": "6b78ff1d-3f97-49c5-9cbb-720eb645ed8a",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T20:08:30",
+      "updated_at": "2026-09-11T20:08:30"
+    },
+    {
+      "id": "8168d3ef-4a7b-4f5e-a9d3-c325c1f2ca5e",
+      "title": "Test: cwd-change path rendering (pytest-7220)",
+      "description": "Scenarios ts_56248e0b, ts_ec451564, ts_347c0e49.",
+      "status": "not_started",
+      "spec_id": "bfa78478-d35f-4ebe-bccd-a482076af673",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T18:23:52",
+      "updated_at": "2026-09-11T18:23:52"
+    },
+    {
+      "id": "751ed169-e2d4-4b8e-9b4f-a0e509617dcd",
+      "title": "Task: absolute fallback when cwd moved (pytest-7220)",
+      "description": "Apply upstream a1465590 hunks: import Path from _pytest.pathlib; in _repr_failure_py replace the try os.getcwd(); abspath=False block with the invocation_dir comparison plus explanatory comment; add changelog/6428.bugfix.rst. No testing/ edits.",
+      "status": "not_started",
+      "spec_id": "bfa78478-d35f-4ebe-bccd-a482076af673",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T18:23:52",
+      "updated_at": "2026-09-11T18:23:52"
+    },
+    {
+      "id": "929a027d-a4a9-4dc5-9a46-803ada8ad2db",
+      "title": "Test: --co equivalence & no regressions (pytest-6116)",
+      "description": "Scenarios ts_506e3797, ts_13b54dfb.",
+      "status": "not_started",
+      "spec_id": "141a8ab6-7711-4a99-b724-3245dbda7767",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T16:39:28",
+      "updated_at": "2026-09-11T16:39:28"
+    },
+    {
+      "id": "5fc4b6bd-0b22-41b6-851f-59d127b94d2f",
+      "title": "Task: add --co synonym (pytest-6116)",
+      "description": "Insert '--co' as third spelling in the collect addoption in src/_pytest/main.py (upstream 6ad95716) + changelog/6116.improvement.rst. No arg pre-processing; no testing/ edits.",
+      "status": "not_started",
+      "spec_id": "141a8ab6-7711-4a99-b724-3245dbda7767",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T16:39:28",
+      "updated_at": "2026-09-11T16:39:28"
+    },
+    {
+      "id": "7ba70dac-5f6c-4c69-810c-0037a33923dc",
+      "title": "Task: junitxml hostname+timestamp (pytest-5692)",
+      "description": "Apply upstream f7e925dc: import platform + datetime; add timestamp=datetime.fromtimestamp(self.suite_start_time).isoformat() and hostname=platform.node() kwargs to Junit.testsuite(...); changelog/5471.feature.rst. No testing/ edits.",
+      "status": "not_started",
+      "spec_id": "cc4c42b0-9b65-4838-8cc2-be83026f6c88",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T13:43:20",
+      "updated_at": "2026-09-11T13:43:20"
+    },
+    {
+      "id": "31c2e1ef-1d43-4144-b8ab-15c74af26da2",
+      "title": "Test: junitxml attributes (pytest-5692)",
+      "description": "Scenarios ts_847213a6, ts_c3459dd1.",
+      "status": "not_started",
+      "spec_id": "cc4c42b0-9b65-4838-8cc2-be83026f6c88",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T13:43:20",
+      "updated_at": "2026-09-11T13:43:20"
+    },
+    {
+      "id": "d6ba281e-3894-4ce1-85ea-d33ed75ac3f1",
+      "title": "Task RERUN: bytes reprs in _compare_eq_sequence (pytest-5495)",
+      "description": "Apply upstream PR #5495 hunks verbatim to _compare_eq_sequence (comparing_bytes, slice reprs, early return) + changelog/5260.bugfix.rst. Base 1aefb24b confirmed. No testing/ edits. Supersedes prior wrong-base attempt (spec 3919d7d5).",
+      "status": "not_started",
+      "spec_id": "9aabb943-809e-447b-a1d8-ad63574f728a",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T13:36:01",
+      "updated_at": "2026-09-11T13:36:01"
+    },
+    {
+      "id": "4e62fba7-65da-4ee7-b842-8b69f2bc3f6b",
+      "title": "Test RERUN: bytes diff behavior + parity (pytest-5495)",
+      "description": "Scenarios ts_cfe82e88, ts_7763f46f, ts_8539fb3d.",
+      "status": "not_started",
+      "spec_id": "9aabb943-809e-447b-a1d8-ad63574f728a",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T13:36:01",
+      "updated_at": "2026-09-11T13:36:01"
+    },
+    {
+      "id": "c0df2a34-6e9c-4986-80f2-f975211cbf12",
+      "title": "Task: bytes assertion diffs as byte reprs (pytest-5495)",
+      "description": "Port upstream 3f3f3e7a into _compare_eq_sequence: comparing_bytes flag, i:i+1 slice reprs for the At-index line, early return skipping len_diff tail for bytes; add changelog/5260.bugfix.rst. No testing/ edits.",
+      "status": "not_started",
+      "spec_id": "3919d7d5-f524-4bfc-bafd-8130d39d13d3",
+      "validations_count": 0,
+      "validations_fail_count": 0,
+      "created_at": "2026-09-11T13:20:49",
+      "updated_at": "2026-09-11T13:20:49"
+    }
+  ]
+}

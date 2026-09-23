@@ -239,8 +239,10 @@ anything beyond "worth a bigger run":
 
 ```
 results/    per-run harness summaries (*.json), raw predictions (*.jsonl),
-            the gold-patch sanity check, and examples/ (worked-example
-            direct-vs-staged diffs cited in the README/reports)
+            the gold-patch sanity check, examples/ (worked-example
+            direct-vs-staged diffs cited in the README/reports), and
+            qwen3.5-9b/ (staged diffs + Pulse board export for the
+            code-change-completion pilot, no harness grading)
 runners/    Okto Pulse staged-lifecycle driver (staged_driver.py), the REST
             helper it runs over (pulse_rest.py), and the diff-emission step
             shared by both arms (apply_staged.py)
