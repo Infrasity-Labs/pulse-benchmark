@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/pulse-benchmark-banner.png" alt="Okto Pulse Benchmarks: staged vs. direct agent edits on SWE-bench Lite" width="100%" />
+  <img src="assets/pulse-benchmark-banner-v2.png" alt="pulse-benchmark: benchmarking agents inside Okto Pulse's plan-then-edit workflow" width="100%" />
 </p>
 
 <p align="center">
@@ -11,21 +11,44 @@
 
 # Pulse Benchmark
 
-**Does [Okto Pulse](https://github.com/OktoLabsAI)'s staged, plan-then-edit workflow produce better patches than a single-shot direct edit?**
+**How well do agents work inside [Okto Pulse](https://github.com/OktoLabsAI/okto-pulse)'s plan-then-edit workflow?** This repository benchmarks it on [SWE-bench Lite](https://huggingface.co/datasets/SWE-bench/SWE-bench_Lite) with two tracks. Every result is graded by the official [`swebench`](https://github.com/SWE-bench/SWE-bench) harness (`FAIL_TO_PASS` / `PASS_TO_PASS`). No LLM judges any result.
 
-This repository answers that with paired runs on [SWE-bench Lite](https://huggingface.co/datasets/SWE-bench/SWE-bench_Lite). Each task is run through a *direct* baseline and a *staged* (Okto Pulse) arm, then graded by the official [`swebench`](https://github.com/SWE-bench/SWE-bench) harness (`FAIL_TO_PASS` / `PASS_TO_PASS`). No LLM judges any result.
+| Track | Question | Who creates the task and plan? | Status |
+|:--|:--|:--|:--|
+| [**Track 1: Current benchmark**](#track-1-current-benchmark) | Does a staged, plan-then-edit workflow beat a single-shot edit? | Prepared in advance, outside the model | Complete: 3 models |
+| [**Track 2: End-to-end agent benchmark**](#track-2-end-to-end-agent-benchmark) | Can an agent run the whole Pulse cycle alone, from issue to validated patch? | The agent, with no hints and no approvals | In progress: 1 of 4 models |
+
+> [!IMPORTANT]
+> All runs published before Track 2 belong to **Track 1**. Their numbers use the Track 1 methodology and are not comparable with Track 2 results.
 
 ## Contents
 
-- [Results at a glance](#results-at-a-glance)
-- [Caveats](#caveats)
-- [Per-instance breakdown](#per-instance-breakdown)
-- [Quick start](#quick-start)
+- [Track 1: Current benchmark](#track-1-current-benchmark)
+  - [How tasks are created and run through Pulse](#how-tasks-are-created-and-run-through-pulse)
+  - [Results](#results) · [Caveats](#caveats) · [Per-instance breakdown](#per-instance-breakdown) · [Quick start](#quick-start)
+- [Track 2: End-to-end agent benchmark](#track-2-end-to-end-agent-benchmark)
 - [Repository layout](#repository-layout)
-- [Roadmap](#roadmap)
 - [Contributing](#contributing) · [License](#license)
 
-## Results at a glance
+## Track 1: Current benchmark
+
+Paired runs on 10 `pytest-dev/pytest` tasks. Each task is run through a *direct* baseline (one-shot edit) and a *staged* arm (Okto Pulse's plan-then-edit lifecycle), then graded by the harness. Methodology and results below are unchanged from the original runs.
+
+### How tasks are created and run through Pulse
+
+> [!NOTE]
+> **Exact methodology of Track 1.** The agent is graded on the edit; it does not create the task or the plan.
+>
+> 1. **Task definitions are prepared in advance.** For each SWE-bench instance, the problem statement, approach, code analysis, in-scope and out-of-scope lists, decisions, and the FR/TR/AC (functional requirements, technical requirements, acceptance criteria) are written ahead of time in [`scripts/gen_staged.py`](scripts/gen_staged.py). The model does not write them at run time.
+> 2. **A script drives the task through Pulse over REST.** [`runners/staged_driver.py`](runners/staged_driver.py) pushes each task through the real board stages, with every gate evaluated server-side: **Ideation** (architecture and mockup attached, `review -> approved -> evaluating -> done`), then **Refinement** (`review -> approved -> done`), then **Spec** (derived from the refinement, FR/TR/AC filled, `review -> approved`), then **Task** (implementation card created off the approved spec).
+> 3. **The edit is applied and a diff is emitted.** Once the card exists, [`runners/apply_staged.py`](runners/apply_staged.py) applies the edit in the instance worktree and writes a `git diff`. The direct arm uses the same diff-emission mechanics, so the variable under test is the process that led to the edit.
+> 4. **Both arms are graded by the same harness run** on the same instances.
+>
+> **Not exercised:** Pulse's Validation stage (after Task). Every Track 1 task stopped at spec-approved plus card-created.
+>
+> Step-by-step instructions: [docs/reproducing.md](docs/reproducing.md).
+
+### Results
 
 All runs use the same 10 `pytest-dev/pytest` instances from SWE-bench Lite.
 
@@ -37,7 +60,7 @@ All runs use the same 10 `pytest-dev/pytest` instances from SWE-bench Lite.
 
 **Takeaway: promising, not proven.** Staged never did worse than direct on any model.
 
-### qwen3.8-flash: resolved rate, harness-graded
+#### qwen3.8-flash: resolved rate, harness-graded
 
 | Arm | Resolved |
 |:--|:--:|
@@ -47,7 +70,7 @@ All runs use the same 10 `pytest-dev/pytest` instances from SWE-bench Lite.
 
 Staged resolved the one task direct missed, `pytest-6116`. Per-instance detail is [below](#per-instance-breakdown).
 
-### Qwen3.5-27B: resolved rate, harness-graded
+#### Qwen3.5-27B: resolved rate, harness-graded
 
 | Arm | Resolved |
 |:--|:--:|
@@ -56,7 +79,7 @@ Staged resolved the one task direct missed, `pytest-6116`. Per-instance detail i
 
 Both arms resolved all 10 instances with no regressions (100% of `FAIL_TO_PASS` and `PASS_TO_PASS`). With no discordant pair, this shows staged did not cost anything, not that it helped. Raw evidence: [`results/qwen3.5-27b/harness-reports-raw.txt`](results/qwen3.5-27b/harness-reports-raw.txt). See the [manually verified gate caveat](#caveats).
 
-### Qwen3.5-9B: code-change completion, not harness-graded
+#### Qwen3.5-9B: code-change completion, not harness-graded
 
 | Arm | Code changes applied | Staged lifecycle completed |
 |:--|:--:|:--:|
@@ -65,7 +88,7 @@ Both arms resolved all 10 instances with no regressions (100% of `FAIL_TO_PASS` 
 
 Both arms produced a code change for all 10 tasks. These patches were not run through the `FAIL_TO_PASS` / `PASS_TO_PASS` harness, so this is implementation coverage rather than a resolved rate and is not blended into the figures above. Evidence: [board export](results/qwen3.5-9b/pulse-board-export.json) and [10 staged diffs](results/qwen3.5-9b/diffs-staged/).
 
-## Caveats
+### Caveats
 
 Read these before quoting any number.
 
@@ -76,7 +99,7 @@ Read these before quoting any number.
 - **One retry.** One staged task (`task-4`) needed a re-run before it resolved.
 - **Manually verified gate (Qwen3.5-27B).** Pulse's `ideation -> done` transition returned a server `500` on ideations with an attached architecture design. For that run the architecture and mockup resources were verified manually, while the remaining gates ran unmodified. Per-instance diffs were not preserved, only the raw harness reports.
 
-## Per-instance breakdown
+### Per-instance breakdown
 
 `qwen3.8-flash`, all 10 instances. `F2P` is passing/total `FAIL_TO_PASS` tests. Every instance in both arms kept 100% of `PASS_TO_PASS`. A check mark means the harness marked the instance `resolved`.
 
@@ -123,7 +146,7 @@ Full diffs: [direct](results/examples/pytest-6116-direct.diff), [staged](results
 
 </details>
 
-## Quick start
+### Quick start
 
 ```bash
 git clone https://github.com/Infrasity-Labs/pulse-benchmark.git
@@ -150,29 +173,62 @@ To run the staged arm yourself, you need a running Okto Pulse server and these e
 | `BENCH_WORKSPACE` | Directory holding the pytest checkout and per-task worktrees, default `~/bench-workspace` |
 
 The full end-to-end procedure is in [docs/reproducing.md](docs/reproducing.md).
+## Track 2: End-to-end agent benchmark
+
+Track 1 tests the edit. Track 2 tests the whole job. The agent picks up an issue and carries it through the complete Pulse cycle with no external help, ending in final validation. Early task creation and planning is where agents tend to struggle more than at code generation, and this track measures that directly.
+
+**What the agent does on its own:** task creation and ideation, architecture and mockup, refinement, spec, implementation card, baseline, reproduction test, fix, validation, and submission.
+
+**Rules:** no hints, no approvals, no web, dataset, gold patch or hidden tests. Each task starts from a fresh checkout at its base commit with the issue text supplied as a file. Patches are graded by the official harness with the dataset's hidden tests.
+
+| Model | Status |
+|:--|:--|
+| Qwen 3.8 Flash | **Done** (10 pytest tasks, below) |
+| Qwen 3.8 27B | Planned |
+| Qwen3.5-9B | Planned |
+| Qwen3.5-2B | Planned |
+
+### Qwen 3.8 Flash: 10 pytest tasks
+
+*Prepared for OktoLabs, October 2026. Model: `qwen/qwen3.8-flash`. Pulse: `okto-pulse 0.3.2`.*
+
+| Outcome | Result |
+|:--|:--:|
+| Reached task creation through a submitted patch | 10 / 10 |
+| Reproduction test failed before the fix and passed after | 10 / 10 |
+| **Resolved by the official SWE-bench check** | **4 / 10** |
+| Resolved, excluding 5227 (see caveat) | 3 / 10 |
+
+Resolved: `5227`, `5692`, `7373`, `7432`. For comparison, Track 1 with the same model resolved 10/10 (staged) and 9/10 (direct).
+
+**What it shows.**
+- Flash got through task creation on all 10 tasks, so this run does **not** support the idea that agents fail at task creation. It lost on **interpreting the issue**.
+- All 6 unresolved tasks share one cause: the patch follows a different reading of the issue than the hidden tests. No environment, harness or Pulse cause was found.
+- The model's reproduction tests passed every time because they encode its own reading of the issue. A test written by the same model is not an independent check.
+- Pulse saw 627 tool calls and 56 failures: 40 model mistakes, 2 board settings, 14 Pulse tool bugs.
+
+**Caveats.**
+- `5227` is flagged: two knowledge-graph queries returned titles from an earlier attempt's board that named the constant the fix changes.
+- `reviewer_separation_mode` was set to `warn`, so every card is self-attested. With the default (`enforce`) a single agent cannot pass task validation.
+- 10 tasks, one repository, one run per task, one model. A gap of one or two tasks is a hint, not proof.
+- Run 2 reused run 1's session, and the model reasoned from memory about upstream fixes. See the report for all disclosed conditions.
+
+Full per-task results, failure analysis, Pulse tooling breakdown and disclosures: [docs/reports/2026-10-track2-qwen3.8-flash-pytest.md](docs/reports/2026-10-track2-qwen3.8-flash-pytest.md).
 
 ## Repository layout
 
 ```text
 .
-├── assets/       banner image (assets/pulse-benchmark-banner.png)
+├── assets/       banner image
 ├── docs/
 │   ├── reproducing.md   end-to-end run guide
-│   └── reports/         dated write-ups with full numbers and caveats
+│   └── reports/         dated write-ups for both tracks
 ├── results/      harness summaries, predictions, gold-patch check, example diffs,
 │                 and per-model artifacts (qwen3.5-9b/, qwen3.5-27b/)
 ├── runners/      staged lifecycle driver, Pulse REST helper, diff emission
 ├── scripts/      task-definition generator and banner renderer
 └── suites/       benchmark definitions (swe_bench_lite/)
 ```
-
-## Roadmap
-
-1. **Scale up.** More Lite instances, then the other 11 repos, so there is a number worth quoting.
-2. **Significance testing.** Paired bootstrap CI or exact McNemar once the sample supports it.
-3. **Fix the `ideation -> done` 500** on ideations with an architecture design, then re-run the Qwen3.5-27B staged arm fully server-gated.
-4. **Preserve per-instance diffs** for the Qwen3.5-27B run.
-5. **More agent models**, ideally ones likely to produce discordant pairs rather than clean sweeps.
 
 ## Contributing
 
