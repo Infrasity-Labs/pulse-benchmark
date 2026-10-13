@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="Okto Pulse Benchmarks: staged vs. direct agent edits on SWE-bench Lite" width="100%" />
+  <img src="assets/pulse-benchmark-banner.png" alt="Okto Pulse Benchmarks: staged vs. direct agent edits on SWE-bench Lite" width="100%" />
 </p>
 
 <p align="center">
@@ -154,7 +154,7 @@ The full end-to-end procedure is in [docs/reproducing.md](docs/reproducing.md).
 
 ```text
 .
-├── assets/       banner image (assets/banner.png)
+├── assets/       banner image (assets/pulse-benchmark-banner.png)
 ├── docs/
 │   ├── reproducing.md   end-to-end run guide
 │   └── reports/         dated write-ups with full numbers and caveats
