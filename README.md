@@ -179,4 +179,4 @@ Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-N/A. No license is granted for this repository. Okto Pulse itself is distributed under the [Elastic License 2.0](https://github.com/OktoLabsAI/okto-pulse/blob/main/LICENSE). SWE-bench and its Lite subset are separate projects with their own licenses.
+No license is granted for this repository. Okto Pulse itself is distributed under the [Elastic License 2.0](https://github.com/OktoLabsAI/okto-pulse/blob/main/LICENSE). SWE-bench and its Lite subset are separate projects with their own licenses.
