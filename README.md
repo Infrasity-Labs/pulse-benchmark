@@ -11,15 +11,19 @@
 
 # Pulse Benchmark
 
-**How well do agents work inside [Okto Pulse](https://github.com/OktoLabsAI/okto-pulse)'s plan-then-edit workflow?** This repository benchmarks it on [SWE-bench Lite](https://huggingface.co/datasets/SWE-bench/SWE-bench_Lite) with two tracks. Every result is graded by the official [`swebench`](https://github.com/SWE-bench/SWE-bench) harness (`FAIL_TO_PASS` / `PASS_TO_PASS`). No LLM judges any result.
+**How well do agents work inside [Okto Pulse](https://github.com/OktoLabsAI/okto-pulse)'s plan-then-edit workflow?** This repository benchmarks it on [SWE-bench Lite](https://huggingface.co/datasets/SWE-bench/SWE-bench_Lite) using **two different methodologies**, one per track. Every result is graded by the official [`swebench`](https://github.com/SWE-bench/SWE-bench) harness (`FAIL_TO_PASS` / `PASS_TO_PASS`). No LLM judges any result.
 
-| Track | Question | Who creates the task and plan? | Status |
-|:--|:--|:--|:--|
-| [**Track 1: Current benchmark**](#track-1-current-benchmark) | Does a staged, plan-then-edit workflow beat a single-shot edit? | Prepared in advance, outside the model | Complete: 3 models |
-| [**Track 2: End-to-end agent benchmark**](#track-2-end-to-end-agent-benchmark) | Can an agent run the whole Pulse cycle alone, from issue to validated patch? | The agent, with no hints and no approvals | In progress: 1 of 4 models |
+| | **Track 1: Current benchmark** | **Track 2: End-to-end agent benchmark** |
+|:--|:--|:--|
+| **Methodology** | Prepared task and plan, scripted Pulse cycle, paired staged vs. direct comparison | Agent runs the whole Pulse cycle itself, from issue to validated patch |
+| **Question** | Does a staged, plan-then-edit workflow beat a single-shot edit? | How well do agents handle the entire process without external assistance? |
+| **Task creation and planning** | Prepared in advance, outside the model | Done by the agent, with no hints and no approvals |
+| **What is measured** | Quality of the edit | Quality of the whole workflow, including task creation and planning |
+| **Models** | qwen3.8-flash, Qwen3.5-27B, Qwen3.5-9B | Qwen 3.8 Flash, Qwen 3.8 27B, Qwen3.5-9B, Qwen3.5-2B |
+| **Status** | Complete | In progress (1 of 4 models) |
 
 > [!IMPORTANT]
-> All runs published before Track 2 belong to **Track 1**. Their numbers use the Track 1 methodology and are not comparable with Track 2 results.
+> The two methodologies measure different things. All runs published before Track 2 belong to **Track 1**, and their numbers are not comparable with Track 2 results.
 
 ## Contents
 
@@ -32,7 +36,7 @@
 
 ## Track 1: Current benchmark
 
-Paired runs on 10 `pytest-dev/pytest` tasks. Each task is run through a *direct* baseline (one-shot edit) and a *staged* arm (Okto Pulse's plan-then-edit lifecycle), then graded by the harness. Methodology and results below are unchanged from the original runs.
+**Methodology 1: prepared plan, staged vs. direct.** Paired runs on 10 `pytest-dev/pytest` tasks. Each task is run through a *direct* baseline (one-shot edit) and a *staged* arm (Okto Pulse's plan-then-edit lifecycle), then graded by the harness. Methodology and results below are unchanged from the original runs.
 
 ### How tasks are created and run through Pulse
 
@@ -171,7 +175,7 @@ To run the staged arm yourself, you need a running Okto Pulse server and these e
 The full end-to-end procedure is in [docs/reproducing.md](docs/reproducing.md).
 ## Track 2: End-to-end agent benchmark
 
-Track 1 tests the edit. Track 2 tests the whole job. The agent picks up an issue and carries it through the complete Pulse cycle with no external help, ending in final validation. Early task creation and planning is where agents tend to struggle more than at code generation, and this track measures that directly.
+**Methodology 2: agent-driven, end to end.** Track 1 tests the edit. Track 2 tests the whole job. The agent picks up an issue and carries it through the complete Pulse cycle with no external help, ending in final validation. Early task creation and planning is where agents tend to struggle more than at code generation, and this track measures that directly.
 
 **What the agent does on its own:** task creation and ideation, architecture and mockup, refinement, spec, implementation card, baseline, reproduction test, fix, validation, and submission.
 
