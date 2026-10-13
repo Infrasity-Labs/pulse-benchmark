@@ -3,7 +3,6 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-3ddc97.svg" /></a>
   <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776ab.svg" />
   <img alt="Benchmark: SWE-bench Lite" src="https://img.shields.io/badge/benchmark-SWE--bench%20Lite-6d8bd6.svg" />
   <img alt="Status: pilot" src="https://img.shields.io/badge/status-pilot%20(n%3D10)-orange.svg" />
@@ -35,7 +34,35 @@ All runs use the same 10 `pytest-dev/pytest` instances from SWE-bench Lite.
 | `Qwen3.5-27B` | Resolved (harness-graded) | 10 / 10 | 10 / 10 | [report](docs/reports/2026-10-05-qwen3.5-27b-pytest-pilot.md) |
 | `Qwen3.5-9B` | Code change applied (**not** harness-graded) | 10 / 10 | 10 / 10 | [report](docs/reports/2026-09-23-qwen3.5-9b-pytest-pilot.md) |
 
-**Takeaway: promising, not proven.** With `qwen3.8-flash`, staged resolved the one task direct missed (`pytest-6116`), moving 9/10 to 10/10. With `Qwen3.5-27B` both arms were perfect, so that run shows staged did not cost anything, not that it helped. The `Qwen3.5-9B` run measures completion rather than correctness and is deliberately kept out of the resolved-rate comparison.
+**Takeaway: promising, not proven.** Staged never did worse than direct on any model.
+
+### qwen3.8-flash: resolved rate, harness-graded
+
+| Arm | Resolved |
+|:--|:--:|
+| **Staged (Okto Pulse)** | **10 / 10** |
+| Direct (single-shot) | 9 / 10 |
+| **Staged advantage** | +1 |
+
+Staged resolved the one task direct missed, `pytest-6116`. Per-instance detail is [below](#per-instance-breakdown).
+
+### Qwen3.5-27B: resolved rate, harness-graded
+
+| Arm | Resolved |
+|:--|:--:|
+| **Staged (Okto Pulse)** | **10 / 10** |
+| Direct (single-shot) | 10 / 10 |
+
+Both arms resolved all 10 instances with no regressions (100% of `FAIL_TO_PASS` and `PASS_TO_PASS`). With no discordant pair, this shows staged did not cost anything, not that it helped. Raw evidence: [`results/qwen3.5-27b/harness-reports-raw.txt`](results/qwen3.5-27b/harness-reports-raw.txt). See the [manually verified gate caveat](#caveats).
+
+### Qwen3.5-9B: code-change completion, not harness-graded
+
+| Arm | Code changes applied | Staged lifecycle completed |
+|:--|:--:|:--:|
+| **Staged (Okto Pulse)** | **10 / 10** | Spec + Task: 10 / 10 |
+| Direct (single-shot) | 10 / 10 | n/a |
+
+Both arms produced a code change for all 10 tasks. These patches were not run through the `FAIL_TO_PASS` / `PASS_TO_PASS` harness, so this is implementation coverage rather than a resolved rate and is not blended into the figures above. Evidence: [board export](results/qwen3.5-9b/pulse-board-export.json) and [10 staged diffs](results/qwen3.5-9b/diffs-staged/).
 
 ## Caveats
 
@@ -152,6 +179,4 @@ Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-Released under the [MIT License](LICENSE).
-
-SWE-bench and its Lite subset are separate projects with their own licenses.
+N/A. No license is granted for this repository. Okto Pulse itself is distributed under the [Elastic License 2.0](https://github.com/OktoLabsAI/okto-pulse/blob/main/LICENSE). SWE-bench and its Lite subset are separate projects with their own licenses.

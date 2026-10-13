@@ -34,24 +34,26 @@ for gx in range(0, W, 40):
 
 GREEN, GREY, WHITE = "#3ddc97", "#8b95a7", "#f0f3f8"
 
-d.text((80 * S, 70 * S), "OKTO PULSE  ·  BENCHMARKS", font=font(20, 1), fill=GREEN)
-d.text((80 * S, 110 * S), "Staged vs. direct", font=font(70, 7), fill=WHITE)
-d.text((80 * S, 190 * S), "agent edits", font=font(70, 7), fill=WHITE)
-d.text((80 * S, 295 * S), "Paired, harness-graded SWE-bench Lite runs", font=font(24, 0), fill=GREY)
-d.text((80 * S, 330 * S), "of Okto Pulse's plan-then-edit workflow.", font=font(24, 0), fill=GREY)
+d.text((60 * S, 50 * S), "OKTO PULSE  ·  BENCHMARKS", font=font(20, 1), fill=GREEN)
+d.text((60 * S, 85 * S), "Staged vs. direct agent edits", font=font(54, 7), fill=WHITE)
+d.text((60 * S, 160 * S), "SWE-bench Lite · pytest slice · n = 10", font=font(22, 0), fill=GREY)
 
-# stat cards
-cards = [("10 / 10", "staged · qwen3.8-flash", GREEN), ("9 / 10", "direct · qwen3.8-flash", "#6d7a92"),
-         ("10 / 10", "staged · Qwen3.5-27B", GREEN)]
-x0, y0, cw, ch, gap = 700, 90, 220, 130, 16
-for i, (big, small, col) in enumerate(cards[:2]):
+cards = [
+    ("qwen3.8-flash", "Resolved · harness-graded", "10/10", "9/10"),
+    ("Qwen3.5-27B", "Resolved · harness-graded", "10/10", "10/10"),
+    ("Qwen3.5-9B", "Code change applied · not graded", "10/10", "10/10"),
+]
+cw, gap, y0, ch = 340, 30, 215, 150
+x0 = 60
+for i, (name, metric, st, di) in enumerate(cards):
     x = x0 + i * (cw + gap)
-    d.rounded_rectangle([x * S, y0 * S, (x + cw) * S, (y0 + ch) * S], 16 * S, fill=(255, 255, 255, 0) if False else "#161c27", outline="#2a3345", width=2)
-    d.text(((x + 20) * S, (y0 + 22) * S), big, font=font(40, 7), fill=col)
-    d.text(((x + 20) * S, (y0 + 86) * S), small, font=font(14, 5), fill=GREY)
-d.rounded_rectangle([x0 * S, (y0 + ch + gap) * S, (x0 + 2 * cw + gap) * S, (y0 + ch + gap + 70) * S], 16 * S, fill="#161c27", outline="#2a3345", width=2)
-d.text(((x0 + 20) * S, (y0 + ch + gap + 12) * S), "SWE-bench Lite · pytest slice · n = 10", font=font(16, 2), fill=WHITE)
-d.text(((x0 + 20) * S, (y0 + ch + gap + 38) * S), "graded by the official swebench harness", font=font(14, 0), fill=GREY)
+    d.rounded_rectangle([x * S, y0 * S, (x + cw) * S, (y0 + ch) * S], 16 * S, fill="#161c27", outline="#2a3345", width=2)
+    d.text(((x + 24) * S, (y0 + 16) * S), name, font=font(26, 7), fill=WHITE)
+    d.text(((x + 24) * S, (y0 + 52) * S), metric, font=font(14, 5), fill=GREY)
+    d.text(((x + 24) * S, (y0 + 82) * S), "STAGED", font=font(12, 1), fill=GREEN)
+    d.text(((x + 24) * S, (y0 + 98) * S), st, font=font(32, 7), fill=GREEN)
+    d.text(((x + 190) * S, (y0 + 82) * S), "DIRECT", font=font(12, 1), fill=GREY)
+    d.text(((x + 190) * S, (y0 + 98) * S), di, font=font(32, 7), fill="#a3adc0")
 
 img = img.resize((W * 2, H * 2), Image.LANCZOS) if S != 2 else img
 os.makedirs("assets", exist_ok=True)
