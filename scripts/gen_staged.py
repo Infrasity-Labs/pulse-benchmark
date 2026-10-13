@@ -1,6 +1,8 @@
 import json
+import os
 
-WT = "~/Infrasity/bench-workspace/wt/%s"
+ROOT = os.environ.get("BENCH_WORKSPACE", "~/bench-workspace")
+WT = ROOT + "/wt/%s"
 
 T = [
  dict(iid="pytest-dev__pytest-5413", short="5413", sha="450d26462",
@@ -160,7 +162,7 @@ T = [
 tasks = []
 for x in T:
     iid = x["iid"]
-    path = ("~/Infrasity/bench-workspace/pytest" if x["short"] == "5227" else WT % x["short"])
+    path = (ROOT + "/pytest" if x["short"] == "5227" else WT % x["short"])
     tasks.append({
      "iid": iid, "path": path,
      "i_title": "%s: %s" % (iid.split("__")[1], x["title"]),

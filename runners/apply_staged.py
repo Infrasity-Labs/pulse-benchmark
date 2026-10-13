@@ -7,7 +7,7 @@ reported FAILED and nothing is committed to the diff file.
 import os
 import subprocess
 
-ROOT = os.path.expanduser("~/Infrasity/bench-workspace")
+ROOT = os.path.expanduser(os.environ.get("BENCH_WORKSPACE", "~/bench-workspace"))
 MAIN = ROOT + "/pytest"
 WT = ROOT + "/wt/%s/src/_pytest"
 

@@ -6,20 +6,23 @@ and null always trips requirement_lint_score_findings_mismatch). This talks to
 the SAME local server, so every gate still runs server-side.
 """
 import json
-import re
+import os
 import sys
+import urllib.error
 import urllib.request
 
-BASE = "http://127.0.0.1:8100/api/v1"
-EXT = "/Users/apple/.pi/agent/extensions/okto-pulse-mcp.ts"
+# Configuration is read from the environment:
+#   PULSE_BASE_URL  REST root of the Okto Pulse server (default below)
+#   PULSE_API_KEY   API key for the benchmark agent (required)
+#   PULSE_BOARD_ID  id of the board the staged chain runs on (required)
+BASE = os.environ.get("PULSE_BASE_URL", "http://127.0.0.1:8100/api/v1")
 
 
 def api_key():
-    txt = open(EXT).read()
-    m = re.search(r"api_key=([A-Za-z0-9_\-]+)", txt)
-    if not m:
-        sys.exit("no api_key found in extension")
-    return m.group(1)
+    key = os.environ.get("PULSE_API_KEY")
+    if not key:
+        sys.exit("PULSE_API_KEY is not set")
+    return key
 
 
 def call(method, path, body=None):
@@ -41,7 +44,10 @@ def call(method, path, body=None):
             return e.code, {"_nonjson": raw[:200]}
 
 
-BOARD = "2648fa35-5621-4dee-a8be-b0db9ed63657"
+BOARD = os.environ.get("PULSE_BOARD_ID", "")
 
 if __name__ == "__main__":
-    print(json.dumps(call("GET", f"/specs/ff9a5a3f-b3de-4840-b43a-3eebd5255871/requirement-lint/preflight")[1], indent=1)[:600])
+    if not BOARD:
+        sys.exit("PULSE_BOARD_ID is not set")
+    status, body = call("GET", f"/boards/{BOARD}/specs")
+    print(status, json.dumps(body, indent=1)[:600])

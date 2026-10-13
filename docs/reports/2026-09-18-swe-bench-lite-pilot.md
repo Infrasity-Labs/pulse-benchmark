@@ -73,13 +73,13 @@ The issue asks for `--co` as a shortcut for `--collect-only`.
 not what was asked) silently becomes `--collect-only` before parsing.
 `--co` is never registered as a real option — doesn't show up in `--help`,
 isn't inspectable by anything that reads the parser. Both `FAIL_TO_PASS`
-tests failed; full diff at `results/examples/pytest-6116-direct.diff`.
+tests failed; full diff at `../../results/examples/pytest-6116-direct.diff`.
 
 **Staged** added `--co` as a real alias on the existing `addoption` call in
 `src/_pytest/main.py`, next to `--collectonly`/`--collect-only`, plus a
 changelog entry — the project's actual contribution convention. Both
 `FAIL_TO_PASS` tests passed; full diff at
-`results/examples/pytest-6116-staged.diff`.
+`../../results/examples/pytest-6116-staged.diff`.
 
 The staged lifecycle's spec/FR/TR/AC step appears to have pushed the model
 toward "register a real option" instead of "patch the arg list" — a
@@ -103,7 +103,7 @@ read is "directional signal, worth scaling," not "proven."
   not more analysis of this one.
 - **One model only.** Only `qwen3.8-flash` has been run so far; whether the
   staged advantage holds on other agent models is untested.
-- **Gold sanity check is clean** (`results/gold.validate-gold-all-10.json`,
+- **Gold sanity check is clean** (`../../results/gold.validate-gold-all-10.json`,
   10/10), which rules out a broken harness/container as the explanation for
   the direct-arm miss.
 

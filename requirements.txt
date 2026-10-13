@@ -1,1 +1,2 @@
 swebench
+Pillow  # only needed to re-render assets/banner.png
