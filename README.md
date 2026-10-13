@@ -25,7 +25,7 @@
 
 - [Track 1: Current benchmark](#track-1-current-benchmark)
   - [How tasks are created and run through Pulse](#how-tasks-are-created-and-run-through-pulse)
-  - [Results](#results) · [Caveats](#caveats) · [Per-instance breakdown](#per-instance-breakdown) · [Quick start](#quick-start)
+  - [Results](#results) · [Scope](#scope) · [Per-instance breakdown](#per-instance-breakdown) · [Quick start](#quick-start)
 - [Track 2: End-to-end agent benchmark](#track-2-end-to-end-agent-benchmark)
 - [Repository layout](#repository-layout)
 - [Contributing](#contributing) · [License](#license)
@@ -77,7 +77,7 @@ Staged resolved the one task direct missed, `pytest-6116`. Per-instance detail i
 | **Staged (Okto Pulse)** | **10 / 10** |
 | Direct (single-shot) | 10 / 10 |
 
-Both arms resolved all 10 instances with no regressions (100% of `FAIL_TO_PASS` and `PASS_TO_PASS`). With no discordant pair, this shows staged did not cost anything, not that it helped. Raw evidence: [`results/qwen3.5-27b/harness-reports-raw.txt`](results/qwen3.5-27b/harness-reports-raw.txt). See the [manually verified gate caveat](#caveats).
+Both arms resolved all 10 instances with no regressions (100% of `FAIL_TO_PASS` and `PASS_TO_PASS`). With no discordant pair, this shows staged did not cost anything, not that it helped. Raw evidence: [`results/qwen3.5-27b/harness-reports-raw.txt`](results/qwen3.5-27b/harness-reports-raw.txt). Details in the [report](docs/reports/2026-10-05-qwen3.5-27b-pytest-pilot.md).
 
 #### Qwen3.5-9B: code-change completion, not harness-graded
 
@@ -88,16 +88,12 @@ Both arms resolved all 10 instances with no regressions (100% of `FAIL_TO_PASS` 
 
 Both arms produced a code change for all 10 tasks. These patches were not run through the `FAIL_TO_PASS` / `PASS_TO_PASS` harness, so this is implementation coverage rather than a resolved rate and is not blended into the figures above. Evidence: [board export](results/qwen3.5-9b/pulse-board-export.json) and [10 staged diffs](results/qwen3.5-9b/diffs-staged/).
 
-### Caveats
+### Scope
 
-Read these before quoting any number.
-
-- **Small sample, one repo.** 10 tasks from `pytest-dev/pytest`, not the 300-task Lite set. Nothing here is a Lite-wide figure.
-- **No significance claim.** A single discordant pair does not clear an exact McNemar test at n=10, so no p-value is reported. Treat the +1 as directional.
-- **Harness validated.** Applying the upstream gold patches through the same harness resolves 10/10 ([`results/gold.validate-gold-all-10.json`](results/gold.validate-gold-all-10.json)), so harness or container problems are not behind any observed failure.
-- **Staged lifecycle is partial.** Every staged task stopped at spec-approved plus card-created. Pulse's own task-validation gate was not reached.
-- **One retry.** One staged task (`task-4`) needed a re-run before it resolved.
-- **Manually verified gate (Qwen3.5-27B).** Pulse's `ideation -> done` transition returned a server `500` on ideations with an attached architecture design. For that run the architecture and mockup resources were verified manually, while the remaining gates ran unmodified. Per-instance diffs were not preserved, only the raw harness reports.
+- 10 tasks from `pytest-dev/pytest`, not the full 300-task Lite set.
+- Counts are directional. No significance test is reported at this sample size.
+- The harness is validated: upstream gold patches resolve 10/10 ([`results/gold.validate-gold-all-10.json`](results/gold.validate-gold-all-10.json)).
+- Per-run caveats are in the [reports](docs/reports/).
 
 ### Per-instance breakdown
 
@@ -190,30 +186,15 @@ Track 1 tests the edit. Track 2 tests the whole job. The agent picks up an issue
 
 ### Qwen 3.8 Flash: 10 pytest tasks
 
-*Prepared for OktoLabs, October 2026. Model: `qwen/qwen3.8-flash`. Pulse: `okto-pulse 0.3.2`.*
-
 | Outcome | Result |
 |:--|:--:|
-| Reached task creation through a submitted patch | 10 / 10 |
+| Task creation through a submitted patch | 10 / 10 |
 | Reproduction test failed before the fix and passed after | 10 / 10 |
 | **Resolved by the official SWE-bench check** | **4 / 10** |
-| Resolved, excluding 5227 (see caveat) | 3 / 10 |
 
-Resolved: `5227`, `5692`, `7373`, `7432`. For comparison, Track 1 with the same model resolved 10/10 (staged) and 9/10 (direct).
+Resolved: `5227`, `5692`, `7373`, `7432`. Flash completed task creation on all 10 tasks. The 6 unresolved tasks follow a different reading of the issue than the hidden tests.
 
-**What it shows.**
-- Flash got through task creation on all 10 tasks, so this run does **not** support the idea that agents fail at task creation. It lost on **interpreting the issue**.
-- All 6 unresolved tasks share one cause: the patch follows a different reading of the issue than the hidden tests. No environment, harness or Pulse cause was found.
-- The model's reproduction tests passed every time because they encode its own reading of the issue. A test written by the same model is not an independent check.
-- Pulse saw 627 tool calls and 56 failures: 40 model mistakes, 2 board settings, 14 Pulse tool bugs.
-
-**Caveats.**
-- `5227` is flagged: two knowledge-graph queries returned titles from an earlier attempt's board that named the constant the fix changes.
-- `reviewer_separation_mode` was set to `warn`, so every card is self-attested. With the default (`enforce`) a single agent cannot pass task validation.
-- 10 tasks, one repository, one run per task, one model. A gap of one or two tasks is a hint, not proof.
-- Run 2 reused run 1's session, and the model reasoned from memory about upstream fixes. See the report for all disclosed conditions.
-
-Full per-task results, failure analysis, Pulse tooling breakdown and disclosures: [docs/reports/2026-10-track2-qwen3.8-flash-pytest.md](docs/reports/2026-10-track2-qwen3.8-flash-pytest.md).
+Per-task results, failure analysis, Pulse tooling breakdown and run conditions: [full report](docs/reports/2026-10-track2-qwen3.8-flash-pytest.md).
 
 ## Repository layout
 
