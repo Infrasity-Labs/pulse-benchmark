@@ -3,6 +3,7 @@
 </p>
 
 <p align="center">
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-3ddc97.svg" /></a>
   <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776ab.svg" />
   <img alt="Benchmark: SWE-bench Lite" src="https://img.shields.io/badge/benchmark-SWE--bench%20Lite-6d8bd6.svg" />
   <img alt="Status: pilot" src="https://img.shields.io/badge/status-pilot%20(n%3D10)-orange.svg" />
@@ -179,4 +180,6 @@ Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-No license is granted for this repository. Okto Pulse itself is distributed under the [Elastic License 2.0](https://github.com/OktoLabsAI/okto-pulse/blob/main/LICENSE). SWE-bench and its Lite subset are separate projects with their own licenses.
+This repository (code, scripts, results and documentation) is released under the [MIT License](LICENSE).
+
+[Okto Pulse](https://github.com/OktoLabsAI/okto-pulse), the software being benchmarked, is **not** covered by this license. It is distributed under the [Elastic License 2.0](https://github.com/OktoLabsAI/okto-pulse/blob/main/LICENSE). SWE-bench and its Lite subset are separate projects with their own licenses.
